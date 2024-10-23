@@ -1,30 +1,39 @@
 import requests
+from company import Company
+import sqlite3
+
+#app description:
+""" User can define his own profile search using application web Interface:
+ parameters will be in the lists: marketCapMoreThan, marketCapLowerThan, priceMoreThan, priceLowerThan, betaMoreThan, betaLowerThan, 
+ volumeMoreThan, volumeLowerThan, dividendMoreThan, dividendLowerThan, isEtf, isFund, isActivelyTrading, sector,industry, country,
+ exchange, limit """
+
+# sql for first search based on profile data :
+
+sql_select = """
+SELECT country, sector, dividendMoreThan FROM profile WHERE profile_name = 1 
+(date_updated IS NULL OR strftime('%s', 'now') - strftime('%s', date_updated) > frequency);"""
+
 
 #data types:
 # income-statement,
 # historical-price-full/stock_dividend,
 
-#profile
-
-class Company:
-    def __init__(self,name,api_key, ticker):
-        self.api_key = api_key
-        self.name = name
-        self.ticker = ticker
-
-    def getbasicsinfo(self, endpoint):
-        """ basic information about the company"""
-        self.endpoint = endpoint
-        self.url = f'{self.endpoint}/v3/profile/{self.ticker}?apikey={self.api_key}'
-        self.response = requests.get(self.url)
-        self.status_code = self.response.status_code
-        self.basic_data = self.response.json()
-
-        print(self.basic_data[0])
 
 API_KEY = "RhodIEnI7pa0ePp9nHdV3vBDLxg6GuYJ"
 base_url = "https://financialmodelingprep.com/api"
 data_type = 'historical-price-full/stock_dividend'
+
+select_profile = ""
+
+class Worker:
+    def __init__(self):
+        self.con = sqlite3.connect("db.sqllite3")
+        self.devices = {}
+        #self.connect_devices()
+        self.connect_modbus_devices()
+        # self.device_thread = threading.Thread(target=self.check_devices)
+        # self.device_thread.start()
 
 def stock_screener(endpoint, param1_name, param2_name, param3_name, param1_val, param2_val, param3_val):
     """ search for stocks based on various criteria, such as market cap, price, etc"""
@@ -43,6 +52,8 @@ def stock_screener(endpoint, param1_name, param2_name, param3_name, param1_val, 
     print(status_code)
     print(len(data))
     return data
+
+
 
 
 my_list = stock_screener(endpoint=base_url,param1_name='sector',param2_name='dividendMoreThan',param3_name='country', param1_val='Energy', param2_val=7, param3_val='US')
