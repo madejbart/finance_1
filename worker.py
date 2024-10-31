@@ -11,9 +11,9 @@ import sqlite3
 # sql for first search based on profile data :
 
 sql_select = """
-SELECT country, sector, dividendMoreThan FROM profile WHERE profile_name = 1 
-(date_updated IS NULL OR strftime('%s', 'now') - strftime('%s', date_updated) > frequency);"""
-
+SELECT profile_name, country, sector FROM profile 
+WHERE profile_name = 'profile1'; 
+"""
 
 #data types:
 # income-statement,
@@ -24,49 +24,70 @@ API_KEY = "RhodIEnI7pa0ePp9nHdV3vBDLxg6GuYJ"
 base_url = "https://financialmodelingprep.com/api"
 data_type = 'historical-price-full/stock_dividend'
 
-select_profile = ""
-
 class Worker:
     def __init__(self):
-        self.con = sqlite3.connect("db.sqllite3")
-        self.devices = {}
-        #self.connect_devices()
-        self.connect_modbus_devices()
-        # self.device_thread = threading.Thread(target=self.check_devices)
-        # self.device_thread.start()
+        self.con = sqlite3.connect(r"C:\Users\madej\PycharmProjects\Finance_Project_Rev1\db.sqlite3")
 
-def stock_screener(endpoint, param1_name, param2_name, param3_name, param1_val, param2_val, param3_val):
-    """ search for stocks based on various criteria, such as market cap, price, etc"""
-    endpoint = endpoint
-    param1_val = param1_val
-    param2_val = param2_val
-    param3_val = param3_val
-    param1_name = param1_name
-    param2_name = param2_name
-    param3_name = param3_name
+    def make_list(self):
+        cur = self.con.cursor()
+        cur2 = self.con.cursor()
 
-    url = f'{endpoint}/v3/stock-screener?{param1_name}={param1_val}&{param2_name}={param2_val}&{param3_name}={param3_val}&apikey={API_KEY}'
-    response = requests.get(url)
-    status_code = response.status_code
-    data = response.json()
-    print(status_code)
-    print(len(data))
-    return data
+        res = cur.execute(sql_select)
+        for name, country, sector in res:
+            print(name)
+            print(country)
+            print(sector)
+
+            if name is None:
+                print("Brak danych!")
+                continue
+            else:
+                print("ok")
+
+        self.con.close()
 
 
+    def run(self):
+        return 0
+
+if __name__ == "__main__":
+    worker = Worker()
+    worker.make_list()
 
 
-my_list = stock_screener(endpoint=base_url,param1_name='sector',param2_name='dividendMoreThan',param3_name='country', param1_val='Energy', param2_val=7, param3_val='US')
-print(my_list)
 
-empty = []
+# def stock_screener(endpoint, param1_name, param2_name, param3_name, param1_val, param2_val, param3_val):
+#     """ search for stocks based on various criteria, such as market cap, price, etc"""
+#     endpoint = endpoint
+#     param1_val = param1_val
+#     param2_val = param2_val
+#     param3_val = param3_val
+#     param1_name = param1_name
+#     param2_name = param2_name
+#     param3_name = param3_name
+#
+#     url = f'{endpoint}/v3/stock-screener?{param1_name}={param1_val}&{param2_name}={param2_val}&{param3_name}={param3_val}&apikey={API_KEY}'
+#     response = requests.get(url)
+#     status_code = response.status_code
+#     data = response.json()
+#     print(status_code)
+#     print(len(data))
+#     return data
 
-for item in my_list:
-    for key in item:
-        if key == 'symbol':
-            empty.append(key)
 
-print(empty)
+
+
+# my_list = stock_screener(endpoint=base_url,param1_name='sector',param2_name='dividendMoreThan',param3_name='country', param1_val='Energy', param2_val=7, param3_val='US')
+# print(my_list)
+#
+# empty = []
+#
+# for item in my_list:
+#     for key in item:
+#         if key == 'symbol':
+#             empty.append(key)
+#
+# print(empty)
 
 
 

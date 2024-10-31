@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 class Company(models.Model):
@@ -20,12 +21,18 @@ class Realestate(models.Model):
 class Profile(models.Model):
     """a Profile of companies for searching deeper """
     profile_name = models.CharField(max_length=20)
-    country = models.CharField(max_length=20)
-    sector = models.CharField(max_length=20)
-    dividendMoreThan = models.IntegerField()
+    date_updated = models.DateTimeField(blank=True, null=True, default=datetime.now())
+    frequency = models.IntegerField(blank=True, null=True)
+    country = models.CharField(max_length=20, blank=True)
+    sector = models.CharField(max_length=20, blank=True)
+    dividendMoreThan = models.IntegerField(blank=True, null=True)
     class Meta:
         verbose_name_plural = 'profiles'
-    def __str__(self):
-        """Return a string representation of the model."""
-        return self.profile_name
+        db_table = 'profile'
+
+class Result(models.Model):
+    date_result = models.DateTimeField(blank=True, null=True)
+    profile = models.ForeignKey(to=Profile, on_delete=models.PROTECT, related_name="results")
+
+
 
