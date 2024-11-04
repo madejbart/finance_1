@@ -26,6 +26,8 @@ class Profile(models.Model):
     country = models.CharField(max_length=20, blank=True)
     sector = models.CharField(max_length=20, blank=True)
     dividendMoreThan = models.IntegerField(blank=True, null=True)
+    enabled = models.BooleanField(blank=True, null=True)
+
     class Meta:
         verbose_name_plural = 'profiles'
         db_table = 'profile'

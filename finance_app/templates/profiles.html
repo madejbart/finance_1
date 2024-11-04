@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Profiles</p>
+<ul>
+   {% for profile in profiles %}
+   <li>
+       <a> {{ profile.profile_name }}</a>
+       <a> {{ profile.country }}</a>
+   </li>
+   {% empty %}
+   <li>No profiles have been added yet.</li>
+   {% endfor %}
+</ul>
+
+  <select id="topic" onchange="showContent(this.value)">
+     {% for profile in profiles %}
+  <option value="{{ profile.profile_name }}">{{ profile.profile_name }}</option>
+     {% empty %}
+     <option value="">No profiles have been added yet.</option>
+     {% endfor %}
+  </select>
+
+{% endblock content %}

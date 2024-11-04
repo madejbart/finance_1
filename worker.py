@@ -11,8 +11,9 @@ import sqlite3
 # sql for first search based on profile data :
 
 sql_select = """
-SELECT profile_name, country, sector FROM profile 
-WHERE profile_name = 'profile1'; 
+SELECT profile_name, country, sector, dividendMoreThan,  FROM profile 
+WHERE enabled = 1 AND
+(date_updated IS NULL OR strftime('%s', 'now') - strftime('%s', date_updated) > frequency); 
 """
 
 #data types:
@@ -28,64 +29,49 @@ class Worker:
     def __init__(self):
         self.con = sqlite3.connect(r"C:\Users\madej\PycharmProjects\Finance_Project_Rev1\db.sqlite3")
 
-    def make_list(self):
+    def create_url(self):
         cur = self.con.cursor()
         cur2 = self.con.cursor()
 
         res = cur.execute(sql_select)
-        for name, country, sector in res:
-            print(name)
-            print(country)
-            print(sector)
-
-            if name is None:
-                print("Brak danych!")
-                continue
+        for name, country, sector, dividendMoreThan in res:
+            self.final_url = f"{base_url}/v3/stock-screener?country={country}&sector={sector}&dividendMoreThan={dividendMoreThan}&apikey={API_KEY}"
+            if self.final_url is None:
+                print("no work")
             else:
-                print("ok")
-
+                print(self.final_url)
         self.con.close()
+        self.stock_screener(self.final_url)
 
+    def stock_screener(self, url):
+        """ make list of companies"""
+        response = requests.get(url)
+        status_code = response.status_code
+        self.data = response.json()
+        print(status_code)
+        print(len(self.data))
+        if self.data is not None:
+            self.create_dict(self.data)
 
+    def create_dict(self, list):
+        my_list = list
+        empty = []
+        for item in my_list:
+            for key in item:
+                if key == 'symbol':
+                    empty.append(key)
     def run(self):
         return 0
 
+
 if __name__ == "__main__":
     worker = Worker()
-    worker.make_list()
+    worker.create_url()
 
-
-
-# def stock_screener(endpoint, param1_name, param2_name, param3_name, param1_val, param2_val, param3_val):
-#     """ search for stocks based on various criteria, such as market cap, price, etc"""
-#     endpoint = endpoint
-#     param1_val = param1_val
-#     param2_val = param2_val
-#     param3_val = param3_val
-#     param1_name = param1_name
-#     param2_name = param2_name
-#     param3_name = param3_name
 #
-#     url = f'{endpoint}/v3/stock-screener?{param1_name}={param1_val}&{param2_name}={param2_val}&{param3_name}={param3_val}&apikey={API_KEY}'
-#     response = requests.get(url)
-#     status_code = response.status_code
-#     data = response.json()
-#     print(status_code)
-#     print(len(data))
-#     return data
-
-
-
-
 # my_list = stock_screener(endpoint=base_url,param1_name='sector',param2_name='dividendMoreThan',param3_name='country', param1_val='Energy', param2_val=7, param3_val='US')
 # print(my_list)
 #
-# empty = []
-#
-# for item in my_list:
-#     for key in item:
-#         if key == 'symbol':
-#             empty.append(key)
 #
 # print(empty)
 
