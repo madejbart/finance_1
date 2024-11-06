@@ -55,11 +55,13 @@ class Worker:
 
     def create_dict(self, list):
         my_list = list
+        print(type(my_list))
         empty = []
         for item in my_list:
             for key in item:
                 if key == 'symbol':
                     empty.append(key)
+        print(empty)
     def run(self):
         return 0
 
