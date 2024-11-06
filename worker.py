@@ -11,7 +11,7 @@ import sqlite3
 # sql for first search based on profile data :
 
 sql_select = """
-SELECT profile_name, country, sector, dividendMoreThan,  FROM profile 
+SELECT profile_name, country, sector, dividendMoreThan FROM profile 
 WHERE enabled = 1 AND
 (date_updated IS NULL OR strftime('%s', 'now') - strftime('%s', date_updated) > frequency); 
 """
