@@ -1,6 +1,7 @@
 import requests
 from company import Company
 import sqlite3
+from csv import DictWriter
 
 #app description:
 """ User can define his own profile search using application web Interface:
@@ -58,17 +59,26 @@ class Worker:
         print(type(my_list))
         empty = []
         for item in my_list:
-            for key in item:
+            for key, value in item.items():
                 if key == 'symbol':
-                    empty.append(key)
-        print(empty)
+                    empty.append(value)
+        self.final_list = empty
+
     def run(self):
-        return 0
+        new_dict = {}
+        new_dict['symbol'] = self.final_list
+        print(new_dict)
+        with open('companies.csv', 'a', newline='') as f_object:
+            dictwriter_object = DictWriter(f_object, fieldnames=['symbol', 'list'])
+            dictwriter_object.writerow(new_dict)
+            f_object.close()
+
 
 
 if __name__ == "__main__":
     worker = Worker()
     worker.create_url()
+    worker.run()
 
 #
 # my_list = stock_screener(endpoint=base_url,param1_name='sector',param2_name='dividendMoreThan',param3_name='country', param1_val='Energy', param2_val=7, param3_val='US')
