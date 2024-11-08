@@ -7,7 +7,8 @@ from csv import DictWriter
 """ User can define his own profile search using application web Interface:
  parameters will be in the lists: marketCapMoreThan, marketCapLowerThan, priceMoreThan, priceLowerThan, betaMoreThan, betaLowerThan, 
  volumeMoreThan, volumeLowerThan, dividendMoreThan, dividendLowerThan, isEtf, isFund, isActivelyTrading, sector,industry, country,
- exchange, limit """
+ exchange, limit. To perform any profile to be searched, enabled filed should be changed to "yes" in the application. 
+  After creating list is complited, user can display new list on the page. """
 
 # sql for first search based on profile data :
 
