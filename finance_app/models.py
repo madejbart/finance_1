@@ -47,4 +47,9 @@ class Result(models.Model):
     profile = models.ForeignKey(to=Profile, on_delete=models.PROTECT, related_name="results")
 
 
+class Endpoint(models.Model):
+    endpoint_name = models.CharField(max_length=20)
+    endpoint_data_type = models.CharField(max_length=20)
+    enabled = models.BooleanField(blank=True, null=True)
+
 

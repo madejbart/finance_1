@@ -81,16 +81,6 @@ if __name__ == "__main__":
     worker.create_url()
     worker.run()
 
-#
-# my_list = stock_screener(endpoint=base_url,param1_name='sector',param2_name='dividendMoreThan',param3_name='country', param1_val='Energy', param2_val=7, param3_val='US')
-# print(my_list)
-#
-#
-# print(empty)
-
-
-
-
 
 # myCompany = Company("name1",api_key=API_KEY,ticker="MSB")
 #
