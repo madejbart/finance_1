@@ -50,7 +50,7 @@ class Result(models.Model):
 class Endpoint(models.Model):
     endpoint_name = models.CharField(max_length=20)
     date_updated = models.DateTimeField(blank=True, null=True, default=datetime.now())
-    endpoint_data_type = models.CharField(max_length=20)
+    endpoint_data_type = models.CharField(max_length=60)
     enabled = models.BooleanField(blank=True, null=True)
     frequency = models.IntegerField(blank=True, null=True)
 

@@ -8,28 +8,34 @@ SELECT endpoint_data_type FROM endpoint
 WHERE enabled = 1 AND
 (date_updated IS NULL OR strftime('%s', 'now') - strftime('%s', date_updated) > frequency); 
 """
-base_url = "https://financialmodelingprep.com/api"
+base_url_v3 = "https://financialmodelingprep.com/api/v3"
 data_type = 'historical-price-full/stock_dividend'
-
+FILE_PATH = './cities.txt'
+API_KEY = "RhodIEnI7pa0ePp9nHdV3vBDLxg6GuYJ"
 class Analizer:
     def __init__(self):
         self.con = sqlite3.connect(r"C:\Users\madej\PycharmProjects\Finance_Project_Rev1\db.sqlite3")
 
-    def create_url(self, base_url, data_type):
-        self.base_url = base_url
+    def create_url(self, base_url_v3, data_type):
+        self.base_url_v3 = base_url_v3
         self.data_type = data_type
         cur = self.con.cursor()
         res = cur.execute(sql_select)
         print(res)
+        empty = []
         for endpoint_data_type in res:
-            print(endpoint_data_type)
-        self.final_url = .....
+            data_type_str = endpoint_data_type[0]
+            url = f'{base_url_v3}/{data_type_str}/AAPL?apikey={API_KEY}'
+            empty.append(url)
+        print(empty)
+
 
     def run(self):
+        return 0
 
 
 
 
 if __name__ == "__main__":
     myanalizer = Analizer()
-    myanalizer.create_url(base_url, data_type)
+    myanalizer.create_url(base_url_v3, data_type)

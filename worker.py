@@ -74,8 +74,6 @@ class Worker:
             dictwriter_object.writerow(new_dict)
             f_object.close()
 
-
-
 if __name__ == "__main__":
     worker = Worker()
     worker.create_url()
