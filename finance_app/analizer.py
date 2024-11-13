@@ -21,12 +21,14 @@ class Analizer:
         self.data_type = data_type
         cur = self.con.cursor()
         res = cur.execute(sql_select)
+        my_list1 = ['sas','rea']
         print(res)
         empty = []
         for endpoint_data_type in res:
             data_type_str = endpoint_data_type[0]
-            url = f'{base_url_v3}/{data_type_str}/AAPL?apikey={API_KEY}'
-            empty.append(url)
+            for element in my_list1:
+                self.url = f'{base_url_v3}/{data_type_str}/{element}?apikey={API_KEY}'
+                empty.append(self.url)
         print(empty)
 
 
