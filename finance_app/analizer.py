@@ -31,6 +31,13 @@ class Analizer:
                 empty.append(self.url)
         print(empty)
 
+    def take_new_symbol(self, file_name):
+        with open('companies.csv', 'r', newline='') as f_object:
+            dictwriter_object = DictWriter(f_object, fieldnames=['symbol', 'list'])
+            dictwriter_object.writerow(new_dict)
+            f_object.close(
+
+
 
     def run(self):
         return 0

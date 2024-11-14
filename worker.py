@@ -65,7 +65,7 @@ class Worker:
                     empty.append(value)
         self.final_list = empty
 
-    def run(self):
+    def build_file_symbols(self):
         new_dict = {}
         new_dict['symbol'] = self.final_list
         print(new_dict)
@@ -74,10 +74,12 @@ class Worker:
             dictwriter_object.writerow(new_dict)
             f_object.close()
 
+
+
 if __name__ == "__main__":
     worker = Worker()
     worker.create_url()
-    worker.run()
+    worker.build_file_symbols()
 
 
 # myCompany = Company("name1",api_key=API_KEY,ticker="MSB")
