@@ -1,3 +1,5 @@
+import csv
+
 import requests
 from company import Company
 import sqlite3
@@ -62,18 +64,15 @@ class Worker:
         for item in my_list:
             for key, value in item.items():
                 if key == 'symbol':
-                    empty.append(value)
+                    value_mod = [value]
+                    empty.append(value_mod)
         self.final_list = empty
 
-    def build_file_symbols(self):
-        new_dict = {}
-        new_dict['symbol'] = self.final_list
-        print(new_dict)
-        with open('companies.csv', 'a', newline='') as f_object:
-            dictwriter_object = DictWriter(f_object, fieldnames=['symbol', 'list'])
-            dictwriter_object.writerow(new_dict)
-            f_object.close()
 
+    def build_file_symbols(self):
+        with open('companies.csv', 'w+', newline='') as f_object:
+            dictwriter_object = csv.writer(f_object)
+            dictwriter_object.writerows(self.final_list)
 
 
 if __name__ == "__main__":

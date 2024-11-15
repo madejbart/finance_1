@@ -1,3 +1,5 @@
+import csv
+
 import requests
 from company import Company
 import sqlite3
@@ -21,30 +23,36 @@ class Analizer:
         self.data_type = data_type
         cur = self.con.cursor()
         res = cur.execute(sql_select)
-        my_list1 = ['sas','rea']
+        my_list1 = self.symbol_list
         print(res)
         empty = []
         for endpoint_data_type in res:
             data_type_str = endpoint_data_type[0]
             for element in my_list1:
                 self.url = f'{base_url_v3}/{data_type_str}/{element}?apikey={API_KEY}'
-                empty.append(self.url)
-        print(empty)
+                url_mod = [self.url]
+                empty.append(url_mod)
+                self.final_urls = empty
+        self.create_final_urls_file()
 
     def take_new_symbol(self, file_name):
-        with open('companies.csv', 'r', newline='') as f_object:
-            dictwriter_object = DictWriter(f_object, fieldnames=['symbol', 'list'])
-            dictwriter_object.writerow(new_dict)
-            f_object.close(
+        empty = []
+        with open(file_name, 'r') as f:
+            read = csv.reader(f)
+            print(type(read))
+            for line in read:
+                empty.append(line[0])
+        self.symbol_list = empty
 
-
+    def create_final_urls_file(self):
+        with open('urls.csv', 'w+', newline='') as f:
+            write_obj = csv.writer(f)
+            write_obj.writerows(self.final_urls)
 
     def run(self):
         return 0
 
-
-
-
 if __name__ == "__main__":
     myanalizer = Analizer()
+    myanalizer.take_new_symbol('companies.csv')
     myanalizer.create_url(base_url_v3, data_type)
