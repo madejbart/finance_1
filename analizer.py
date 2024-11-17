@@ -1,5 +1,5 @@
 import csv
-
+import time
 import requests
 from company import Company
 import sqlite3
@@ -50,9 +50,21 @@ class Analizer:
             write_obj.writerows(self.final_urls)
 
     def run(self):
-        return 0
+        """ a function that takes every single url from csv file for further analyzing"""
+        with open('urls.csv', 'r') as f:
+            read = csv.reader(f)
+            print(type(read))
+            for line in read:
+                url = line[0]
+                print(url)
+                response = requests.get(url)
+                status_code = response.status_code
+                if status_code == 400:
+                    return 1
+
 
 if __name__ == "__main__":
     myanalizer = Analizer()
-    myanalizer.take_new_symbol('companies.csv')
-    myanalizer.create_url(base_url_v3, data_type)
+    # myanalizer.take_new_symbol('companies.csv')
+    # myanalizer.create_url(base_url_v3, data_type)
+    myanalizer.run()

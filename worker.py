@@ -58,6 +58,7 @@ class Worker:
             self.create_dict(self.data)
 
     def create_dict(self, list):
+        """create a dictionary for saving to a csv file  """
         my_list = list
         print(type(my_list))
         empty = []
