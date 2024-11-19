@@ -53,14 +53,18 @@ class Analizer:
         """ a function that takes every single url from csv file for further analyzing"""
         with open('urls.csv', 'r') as f:
             read = csv.reader(f)
-            print(type(read))
             for line in read:
                 url = line[0]
                 print(url)
                 response = requests.get(url)
                 status_code = response.status_code
-                if status_code == 400:
-                    return 1
+                data = response.json()
+                print(data)
+                if status_code == 200:
+                    print("It;s ok")
+                else:
+                    print("Not ok")
+                time.sleep(2)
 
 
 if __name__ == "__main__":
