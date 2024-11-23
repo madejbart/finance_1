@@ -59,16 +59,46 @@ class Analizer:
                 response = requests.get(url)
                 status_code = response.status_code
                 data = response.json()
-                print(data)
+                #print(data)
                 if status_code == 200:
                     print("It;s ok")
+                    self.testowa(data)
                 else:
                     print("Not ok")
-                time.sleep(2)
+                time.sleep(15)
 
+    def testowa(self, dict_for_check):
+        """a function that takes every dictionary from run to check the data of the company"""
+        dict_for_check = dict_for_check
+        for key, value in dict_for_check.items():
+            if key == 'historical':
+                #print(type(value))
+                for item in value:
+                    self.investigate_dividend(item)
+
+
+    def investigate_dividend(self, dict_for_div):
+        """a function that checks every dictionary from testowa for divident if it is not dropping"""
+        dict_for_div = dict_for_div
+        print(dict_for_div)
+        empty_list = []
+        for key, value in dict_for_div.items():
+            if key == "fff":
+                empty_list = empty_list.append(value)
+        print(empty_list)
+        self.my_list_div = empty_list
+        n=0
+        olditem = 0
+        for item in self.my_list_div:
+            if item >= olditem:
+                print("passed")
+            else:
+                print("failed")
+            olditem = item
 
 if __name__ == "__main__":
     myanalizer = Analizer()
-    # myanalizer.take_new_symbol('companies.csv')
-    # myanalizer.create_url(base_url_v3, data_type)
+    #myanalizer.take_new_symbol('companies.csv')
+    #myanalizer.create_url(base_url_v3, data_type)
+    #myanalizer.testowa()
     myanalizer.run()
