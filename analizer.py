@@ -65,17 +65,22 @@ class Analizer:
                     self.testowa(data)
                 else:
                     print("Not ok")
-                time.sleep(15)
+                time.sleep(5)
 
     def testowa(self, dict_for_check):
-        """a function that takes every dictionary from run to check the data of the company"""
-        dict_for_check = dict_for_check
-        for key, value in dict_for_check.items():
+        """a function that takes every dictionary from run function to extract dividend values and create list of them"""
+        self.dict_for_check = dict_for_check
+        empty_list = []
+        for key, value in self.dict_for_check.items():
+            if key == 'symbol':
+                symbol = value
             if key == 'historical':
-                #print(type(value))
                 for item in value:
-                    self.investigate_dividend(item)
-
+                    for key2, value2 in item.items():
+                        if key2 == "dividend":
+                            empty_list.append(value2)
+        print(empty_list)
+        print(symbol)
 
     def investigate_dividend(self, dict_for_div):
         """a function that checks every dictionary from testowa for divident if it is not dropping"""
