@@ -79,27 +79,21 @@ class Analizer:
                     for key2, value2 in item.items():
                         if key2 == "dividend":
                             empty_list.append(value2)
-        print(empty_list)
-        print(symbol)
+        self.dividend_number_list = empty_list
+        self.symbol = symbol
+        self.investigate_dividend()
 
-    def investigate_dividend(self, dict_for_div):
-        """a function that checks every dictionary from testowa for divident if it is not dropping"""
-        dict_for_div = dict_for_div
-        print(dict_for_div)
-        empty_list = []
-        for key, value in dict_for_div.items():
-            if key == "fff":
-                empty_list = empty_list.append(value)
-        print(empty_list)
-        self.my_list_div = empty_list
+    def investigate_dividend(self):
+        """a function that checks every list given from testowa for divident if it is not dropping"""
+        print(self.dividend_number_list)
         n=0
         olditem = 0
-        for item in self.my_list_div:
-            if item >= olditem:
-                print("passed")
-            else:
+        for item in self.dividend_number_list:
+            print(item)
+            if item > olditem:
                 print("failed")
             olditem = item
+        print("passed if not failed before")
 
 if __name__ == "__main__":
     myanalizer = Analizer()
