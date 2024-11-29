@@ -87,13 +87,14 @@ class Analizer:
         """a function that checks every list given from testowa for divident if it is not dropping"""
         print(self.dividend_number_list)
         n=0
-        olditem = 0
+        olditem = 1000
         for item in self.dividend_number_list:
-            print(item)
-            if item > olditem:
+            if olditem < item:
                 print("failed")
             olditem = item
         print("passed if not failed before")
+
+
 
 if __name__ == "__main__":
     myanalizer = Analizer()
