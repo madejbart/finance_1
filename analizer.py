@@ -90,9 +90,11 @@ class Analizer:
         olditem = 1000
         for item in self.dividend_number_list:
             if olditem < item:
-                print("failed")
+                status = 'failed'
+                print(status)
+                break
             olditem = item
-        print("passed if not failed before")
+        #print("passed if not failed before")
 
 
 
