@@ -88,12 +88,19 @@ class Analizer:
         print(self.dividend_number_list)
         n=0
         olditem = 1000
+        status = 'failed'
         for item in self.dividend_number_list:
             if olditem < item:
                 status = 'failed'
                 print(status)
                 break
+            else:
+                status = 'ok'
             olditem = item
+        if status == 'failed':
+            print('this company does not meet')
+        else:
+            print(status)
         #print("passed if not failed before")
 
 
