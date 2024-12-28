@@ -95,7 +95,9 @@ class Analizer:
                 print(status)
                 break
             else:
-                status = 'ok'
+                status = '1st condition ok'
+                print('checking the 2nd condition')
+                self.check_how_many_years(15)
             olditem = item
         if status == 'failed':
             print('this company does not meet')
@@ -103,11 +105,30 @@ class Analizer:
             print(status)
         #print("passed if not failed before")
 
+    def check_how_many_years(self, years):
+        """ a function that checks the company how many years it pays dividends, should be more then given value"""
+
+        current_yers = len(self.dividend_number_list)
+        if current_yers > years:
+            print("the 2nd condition is ok")
+            self.symbol_success = self.symbol
+            self.create_final_csv_for_investor()
+
+        else:
+            print("not meet verification")
+
+    def create_final_csv_for_investor(self):
+        with open('final_urls_after_analizer.csv', 'w+', newline='') as f:
+            write_obj = csv.writer(f)
+            write_obj.writerow(self.symbol_success)
+
 
 
 if __name__ == "__main__":
     myanalizer = Analizer()
-    #myanalizer.take_new_symbol('companies.csv')
-    #myanalizer.create_url(base_url_v3, data_type)
-    #myanalizer.testowa()
-    myanalizer.run()
+    myanalizer.check_how_many_years(6)
+
+    # myanalizer.take_new_symbol('companies.csv')
+    # myanalizer.create_url(base_url_v3, data_type)
+    #
+    # myanalizer.run()
