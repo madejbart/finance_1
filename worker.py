@@ -48,7 +48,7 @@ class Worker:
         self.stock_screener(self.final_url)
 
     def stock_screener(self, url):
-        """ make list of companies"""
+        """ make list of companies and then call function to create dict"""
         response = requests.get(url)
         status_code = response.status_code
         self.data = response.json()

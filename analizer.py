@@ -5,6 +5,7 @@ from company import Company
 import sqlite3
 from csv import DictWriter
 
+
 sql_select = """
 SELECT endpoint_data_type FROM endpoint 
 WHERE enabled = 1 AND
@@ -36,6 +37,7 @@ class Analizer:
         self.create_final_urls_file()
 
     def take_new_symbol(self, file_name):
+        """ this function  takes data from the given file and creates urls"""
         empty = []
         with open(file_name, 'r') as f:
             read = csv.reader(f)
@@ -128,7 +130,7 @@ if __name__ == "__main__":
     myanalizer = Analizer()
     myanalizer.check_how_many_years(6)
 
-    # myanalizer.take_new_symbol('companies.csv')
-    # myanalizer.create_url(base_url_v3, data_type)
+    #myanalizer.take_new_symbol('companies.csv')
+    #myanalizer.create_url(base_url_v3, data_type)
     #
     # myanalizer.run()
